@@ -1,4 +1,4 @@
-package com.javaguide.employeeservice.exception;
+package com.javaguide.employeeservice.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

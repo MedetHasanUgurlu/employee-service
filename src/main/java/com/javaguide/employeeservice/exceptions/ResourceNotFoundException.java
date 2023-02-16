@@ -1,8 +1,12 @@
-package com.javaguide.employeeservice.exception;
+package com.javaguide.employeeservice.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
+@Setter
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
     private String resourceName;
@@ -10,7 +14,7 @@ public class ResourceNotFoundException extends RuntimeException {
     private Long fieldValue;
 
     public ResourceNotFoundException(String resourceName, String fieldName, Long fieldValue) {
-        super(String.format("%1 not found with %1 : %3",resourceName,fieldName,fieldValue));
+        super(String.format("%s not found with %s : %s",resourceName,fieldName,fieldValue));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;

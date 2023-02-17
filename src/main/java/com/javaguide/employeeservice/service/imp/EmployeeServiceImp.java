@@ -2,7 +2,8 @@ package com.javaguide.employeeservice.service.imp;
 
 import com.javaguide.employeeservice.dto.EmployeeDto;
 import com.javaguide.employeeservice.entity.Employee;
-import com.javaguide.employeeservice.exceptions.ResourceNotFoundException;
+import com.javaguide.employeeservice.exceptions.exception.EmailAlreadyExistException;
+import com.javaguide.employeeservice.exceptions.exception.ResourceNotFoundException;
 import com.javaguide.employeeservice.repository.EmployeeRepository;
 import com.javaguide.employeeservice.service.EmployeeService;
 import com.javaguide.employeeservice.util.ModelMapperBean;
@@ -20,15 +21,20 @@ public class EmployeeServiceImp implements EmployeeService {
     public EmployeeDto entityToDto(Employee employee){
         return  modelMapperBean.getModelMapper().map(employee,EmployeeDto.class);
     }
+
     public Employee dtoToEntity(EmployeeDto employeeDto){
         return modelMapperBean.getModelMapper().map(employeeDto,Employee.class);
     }
+
     public void saveEmployee(EmployeeDto employeeDto){
+        if(repository.findByEmail(employeeDto.getEmail()).isPresent()){
+            throw new EmailAlreadyExistException("Email is already used.");
+        }
         repository.save(dtoToEntity(employeeDto));
     }
+
     public EmployeeDto getEmployeeById(Long id){
         return entityToDto(repository.findById(id).orElseThrow(()->new ResourceNotFoundException("A","B",id)));
     }
-
 
 }
